@@ -2,8 +2,9 @@ package models;
 
 public class Node<T> {
     private T value;
-    private Node<T> next;
+    public Node<T> next;
     private Node<T> prev;
+    public Object data;
 
     public Node(T value) {
         this.value = value;

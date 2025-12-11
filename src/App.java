@@ -1,46 +1,37 @@
-import java.util.ArrayList;
-import java.util.List;
-
-import controllers.Stack;
+import controllers.Queue;
 import models.Node;
 import models.Person;
 
 public class App {
-
     public static void main(String[] args) {
+        Node<Person> nodeJ = new Node<Person>(new Person("Juan", 30));
+        Node<Person> nodeM = new Node<Person>(new Person("Maria", 35));
+        Node<Person> nodeP = new Node<Person>(new Person("Pepito", 31));
+        Node<Person> nodeD = new Node<Person>(new Person("Diego", 25));
 
-        Node<Person> node1 = new Node<Person>(new Person("Juan", 30));
-        Node<Person> node2 = new Node<Person>(new Person("Maria", 35));
-        Node<Person> node3 = new Node<Person>(new Person("Pepito", 25));
-        Node<Person> node4 = new Node<Person>(new Person("Diego", 30));
+        nodeJ.setNext(nodeM);
+        nodeM.setNext(nodeP);
+        nodeP.setNext(nodeD);
 
-        node1.setNext(node2);
-        node2.setNext(node3);
-        node3.setNext(node4);
-
-        System.out.println(node1.toString());
+        System.out.println(nodeJ.toString());
+        System.out.println("");
 
         runStackExample();
+        
     }
 
-    public static void runStackExample() {
-
-        Stack<Person> persons = new Stack<Person>();
-
-        persons.push(new Person("Juan", 30));
-        persons.push(new Person("Maria", 35));
-        persons.push(new Person("Pepito", 32));
-        persons.push(new Person("Diego", 31));
-
-        System.out.println("Pila completa:");
-        persons.printAllNodes(); 
-
-        System.out.println("Elemento sacado: " + persons.pop());
-
-        System.out.println("Pila después de pop:");
-        persons.printAllNodes(); 
+    public static void runStackExample(){
+        Queue<Person> persons = new Queue<Person>();
+        persons.enqueue(new Person("Juan", 30));
+        persons.enqueue(new Person("Maria", 35));
+        persons.enqueue(new Person("Pepito", 32));
+        persons.enqueue(new Person("Diego", 31));
+        System.out.println("Size=" + persons.size());
+        persons.pritnAllNodes();
+        System.out.println(persons.dequeue());
+        System.out.println("Primera" + persons.getFirst());
+        System.out.println("Ultima" + persons.getLast());
+        System.out.println("Size=" + persons.size());
+        persons.pritnAllNodes();
     }
 }
-
-
-    
