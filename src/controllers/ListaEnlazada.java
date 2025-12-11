@@ -2,71 +2,120 @@ package controllers;
 
 import models.Node;
 
-public class ListaEnlazada <T> {
-    public Node<T> head;
-    private int size = 0;
+public class ListaEnlazada<T> {
+    private Node<T> head;
+    private int size;
 
+    public ListaEnlazada() {
+        this.head = null;
+        this.size = 0;
+    }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public Node<T> getHead() {
+        return head;
+    }
 
     public void append(T data) {
         Node<T> newNode = new Node<T>(data);
-
         if (head == null) {
             head = newNode;
         } else {
             Node<T> current = head;
-            while (current.next != null) {
-                current = current.next;
+            while (current.getNext() != null) {
+                current = current.getNext();
             }
-            current.next = newNode;
+            current.setNext(newNode);
         }
         size++;
     }
 
-
-    public void deleteFirst() {
-        if (head == null) return; 
-
-        head = head.next;
-        size--;
-    }
-
-
-    public void deleteLast() {
-        if (head == null) return; 
-
-        if (head.next == null) { 
-            head = null;
-        } else {
-            Node<T> current = head;
-            while (current.next.next != null) { 
-                current = current.next;
-            }
-            current.next = null; 
+    public T deleteFirst() {
+        if (isEmpty()) {
+            return null;
         }
+        T value = head.getValue();
+        head = head.getNext();
         size--;
+        return value;
     }
 
-    public void deleteNode(T data) {
-        if (head == null) return;
+    public T deleteLast() {
+        if (isEmpty()) {
+            return null;
+        }
 
-        if (head.data.equals(data)) {
-            head = head.next;
+        if (head.getNext() == null) {
+            T value = head.getValue();
+            head = null;
             size--;
+            return value;
+        }
+
+        Node<T> current = head;
+        while (current.getNext().getNext() != null) {
+            current = current.getNext();
+        }
+
+        T value = current.getNext().getValue();
+        current.setNext(null);
+        size--;
+        return value;
+    }
+
+    public boolean deleteNode(T data) {
+        if (isEmpty()) {
+            return false;
+        }
+
+        if (equals(head.getValue(), data)) {
+            head = head.getNext();
+            size--;
+            return true;
+        }
+
+        Node<T> current = head;
+        while (current.getNext() != null && !equals(current.getNext().getValue(), data)) {
+            current = current.getNext();
+        }
+
+        if (current.getNext() == null) {
+            return false;
+        }
+
+        current.setNext(current.getNext().getNext());
+        size--;
+        return true;
+    }
+
+    private boolean equals(T a, T b) {
+        if (a == null)
+            return b == null;
+        return a.toString().equals(b.toString());
+    }
+
+    public void printAllNodes() {
+        if (isEmpty()) {
+            System.out.println("Head -> (vacío)");
             return;
         }
 
         Node<T> current = head;
-        while (current.next != null && !current.next.data.equals(data)) {
-            current = current.next;
+        System.out.print("Head -> " + current.getValue());
+        current = current.getNext();
+
+        while (current != null) {
+            System.out.print(" -> " + current.getValue());
+            current = current.getNext();
         }
 
-        if (current.next != null) {
-            current.next = current.next.next;
-            size--;
-        }
-    }
-
-    public int getSize() {
-        return size;
+        System.out.println();
     }
 }
